@@ -12,12 +12,11 @@ import { Fonte_Bold } from "../components/fonte-bold";
 import { Borda_Ciano } from "../components/borda-ciano";
 
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/react-toastify.css;'
 
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
-import { useState, useEffect, ReactDOM } from "react";
+import { useState, useEffect, useRef, ReactDOM } from "react";
 
 import LoadingBar from 'react-top-loading-bar';
 
@@ -37,6 +36,16 @@ export default function Turma3() {
   const [descricao, setDescricao] = useState('');
   const [idAlterando, setIdAlterando] = useState('');
 
+  const loading = useRef(null);
+
+  const atualizar = async() => {
+    loading.current.continuousStart();
+
+    const produtos = await api.listar(1);
+    setProdutos(produtos)
+
+    loading.current.complete();
+  }
 
   async function listar() {
     let r = await api.listar();
@@ -63,6 +72,7 @@ export default function Turma3() {
 
     limparCampos();
     listar();
+    await atualizar();
   }
 
   function limparCampos() {
@@ -121,7 +131,7 @@ export default function Turma3() {
   return (
     <Turma>
       <Cabecalho>
-        <LoadingBar color="blue" ref={loading} />
+        <LoadingBar color="#10eaea" ref={loading} />
         <div className="usuario">
           <img src="/imgs/usu.png" alt="" />
           Olá,<Fonte_Bold>Yasmin Dias de Oliveira</Fonte_Bold>
@@ -223,6 +233,7 @@ export default function Turma3() {
         <Tabela>
           <thead>
             <Cab>
+              <th></th>
               <th>ID</th>
               <th>Produto</th>
               <th>Categoria</th>
@@ -230,6 +241,7 @@ export default function Turma3() {
               <th>Estoque</th>
               <th></th>
               <th></th>
+
             </Cab>
           </thead>
 
@@ -244,8 +256,8 @@ export default function Turma3() {
                   </td>
                   <td> {item.id_produto} </td>
                   <td title={item.nm_produto}> 
-                      {item.nm_produto != null && item.nm_produto.length >= 25 
-                      ? item.nm_produto.substr(0, 25) + '...' 
+                      {item.nm_produto != null && item.nm_produto.length >= 12
+                      ? item.nm_produto.substr(0, 12) + '...' 
                       : item.nm_produto} 
                   </td>
                   <td> {item.ds_categoria} </td>
