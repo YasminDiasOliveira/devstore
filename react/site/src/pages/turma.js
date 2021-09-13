@@ -12,6 +12,7 @@ import { Fonte_Bold } from "../components/fonte-bold";
 import { Borda_Ciano } from "../components/borda-ciano";
 
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -58,16 +59,16 @@ export default function Turma3() {
       let r = await api.inserir(nome, preco_de, categoria, preco_por, avaliacao, estoque, imagem, descricao);
 
       if (r.erro) 
-          alert(r.erro);
+          toast.error(r.erro);
       else 
-          alert('Produto Cadastrado!');
+          toast.dark('Produto Cadastrado!');
     } else {
       let r = await api.alterar(idAlterando, nome, preco_de, categoria, preco_por, avaliacao, estoque, imagem, descricao);
       
       if (r.erro) 
-          alert(r.erro);
+          toast.error(r.erro);
       else 
-          alert('Produto Alterado!');
+          toast.dark('Produto Alterado!');
     }
 
     limparCampos();
@@ -130,8 +131,9 @@ export default function Turma3() {
 
   return (
     <Turma>
+      <ToastContainer />
+      <LoadingBar color="#10eaea" ref={loading} />
       <Cabecalho>
-        <LoadingBar color="#10eaea" ref={loading} />
         <div className="usuario">
           <img src="/imgs/usu.png" alt="" />
           Olá,<Fonte_Bold>Yasmin Dias de Oliveira</Fonte_Bold>

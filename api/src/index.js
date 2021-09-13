@@ -17,21 +17,29 @@ app.get('/produto', async (req, resp) => {
 
 app.post('/produto', async (req, resp) => {
     try{
-        let { nome, preco_de, categoria, preco_por, avaliacao, estoque, imagem, descricao } = req.body;
-        
-        let r = await db.tb_produto.create({
-            nm_produto: nome,
-            vl_preco_de: preco_de,
-            ds_categoria: categoria,
-            vl_preco_por: preco_por,
-            vl_avaliacao: avaliacao,
-            qtd_estoque: estoque,
-            img_produto: imagem,
-            ds_produto: descricao,
-            bt_ativo: true,
-            dt_inclusao: new Date()
-        })
-        resp.send(r);
+
+        let exist = await db.tb_produto.findOne({where: {nm_produto: req.body.nome}});
+        if(exist != null) {
+            return resp.send({ erro: 'Produto ja existe!' });
+        }else{
+
+            let { nome, preco_de, categoria, preco_por, avaliacao, estoque, imagem, descricao } = req.body;
+
+            let r = await db.tb_produto.create({
+                nm_produto: nome,
+                vl_preco_de: preco_de,
+                ds_categoria: categoria,
+                vl_preco_por: preco_por,
+                vl_avaliacao: avaliacao,
+                qtd_estoque: estoque,
+                img_produto: imagem,
+                ds_produto: descricao,
+                bt_ativo: true,
+                dt_inclusao: new Date()
+            })
+
+            resp.send(r);
+        }
     } catch (e) {
         resp.send({ erro: e.toString() })
     }
