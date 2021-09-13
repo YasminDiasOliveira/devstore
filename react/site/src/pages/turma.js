@@ -55,6 +55,30 @@ export default function Turma3() {
 
   async function inserir() {
 
+      if ( nome === '' )
+        return toast.error( "O campo Nome precisa ser preenchido" );
+
+      if ( preco_de === '' )
+        return toast.error( "O campo Preço De precisa ser preenchido" );
+
+      if ( categoria === '' )
+        return toast.error( "O campo Categoria precisa ser preenchido" );
+      
+      if ( preco_por === '' )
+        return toast.error( "O campo Preço Por precisa ser preenchido" );
+      
+      if ( avaliacao === '' )
+        return toast.error( "O campo Avaliação precisa ser preenchido" );
+      
+      if ( estoque === '' )
+        return toast.error( "O campo Estoque precisa ser preenchido" );
+
+      if ( imagem === '' )
+        return toast.error( "O campo de Imagem precisa ser preenchido" );
+
+      if ( descricao === '' )
+        return toast.error( "O campo de Descrição precisa ser preenchido" );
+
     if( idAlterando == '' ) {
       let r = await api.inserir(nome, preco_de, categoria, preco_por, avaliacao, estoque, imagem, descricao);
 

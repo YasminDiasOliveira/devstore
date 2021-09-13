@@ -23,7 +23,7 @@ app.post('/produto', async (req, resp) => {
             return resp.send({ erro: 'Produto ja existe!' });
         }else{
 
-            let { nome, preco_de, categoria, preco_por, avaliacao, estoque, imagem, descricao } = req.body;
+         let { nome, preco_de, categoria, preco_por, avaliacao, estoque, imagem, descricao } = req.body;
 
             let r = await db.tb_produto.create({
                 nm_produto: nome,
